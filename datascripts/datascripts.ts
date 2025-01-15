@@ -1,3 +1,3 @@
 import { std } from "wow/wotlk";
 
-console.log("Hello from azara-core data script!");
+console.log("Loading Shadows of Azara...");
