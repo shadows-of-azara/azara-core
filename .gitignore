@@ -11,6 +11,7 @@ log.txt
 .swcrc
 
 datasets/dataset/dbc/
+datasets/dataset/dbc_source/
 datasets/dataset/maps/
 datasets/dataset/mmaps/
 datasets/dataset/vmaps/
