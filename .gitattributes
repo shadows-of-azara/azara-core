@@ -13,6 +13,3 @@
 *.blend filter=lfs diff=lfs merge=lfs -text
 *.json filter=lfs diff=lfs merge=lfs -text
 *.sql filter=lfs diff=lfs merge=lfs -text
-*.html -linguist-detectable
-*.css -linguist-detectable
-*.js -linguist-detectable
