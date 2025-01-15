@@ -6,7 +6,7 @@
 - Delete any other modules present.
 - `git clone git@github.com:shadows-of-azara/azara-core.git azara-core`
 - In your TS-WoW directory find `node.conf` and set the following.
-    - Default.Client = "C:\\PathToClient\\Here"
+    - Default.Client = "C:\\\PathToClient\\\Here"
     - Default.Realm = "azara-core.realm"
     - Default.Dataset = "azara-core.dataset"
     - AutoStart.Realms = ["azara-core.realm"]
