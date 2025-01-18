@@ -1,5 +1,5 @@
 @CharactersTable
-export class LearnedAbilities extends DBEntry {
+export class Learned_Abilities extends DBEntry {
     constructor(player: TSGUID, spell: uint32) {
         super();
         this.player = player;
@@ -15,18 +15,18 @@ export class LearnedAbilities extends DBEntry {
     @DBField
     active: uint8 = 0;
 
-    static get(player: TSPlayer, spell: uint32): LearnedAbilities {
-        return player.GetObject('Abilities', LoadDBEntry(new LearnedAbilities(player.GetGUID(), spell)));
+    static get(player: TSPlayer, spell: uint32): Learned_Abilities {
+        return player.GetObject('Abilities', LoadDBEntry(new Learned_Abilities(player.GetGUID(), spell)));
     }
 
     static HasAbility(player: TSPlayer, spell: uint32) {
-        const ability = LearnedAbilities.get(player, spell)
+        const ability = Learned_Abilities.get(player, spell)
 
         return ability.active
     }
 
     static Learn(player: TSPlayer, spell: uint32) {
-        const ability = LearnedAbilities.get(player, spell)
+        const ability = Learned_Abilities.get(player, spell)
 
         ability.spell = spell
 
@@ -34,7 +34,7 @@ export class LearnedAbilities extends DBEntry {
     }
 
     static Deactivate(player: TSPlayer, spell: uint32) {
-        const ability = LearnedAbilities.get(player, spell)
+        const ability = Learned_Abilities.get(player, spell)
 
         ability.active = 0;
 
@@ -42,7 +42,7 @@ export class LearnedAbilities extends DBEntry {
     }
 
     static Activate(player: TSPlayer, spell: uint32) {
-        const ability = LearnedAbilities.get(player, spell)
+        const ability = Learned_Abilities.get(player, spell)
 
         ability.active = 1;
 

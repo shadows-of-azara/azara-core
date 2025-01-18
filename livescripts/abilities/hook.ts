@@ -1,4 +1,4 @@
-import { LearnedAbilities } from "./learned-abilities"
+import { Learned_Abilities } from "./learned-abilities"
 
 export function AbilityHook(events: TSEvents) {
     events.Spell.OnAfterCast(TAG('magic-core', 'LEARN_ABILITY'), (spell) => {
@@ -9,8 +9,8 @@ export function AbilityHook(events: TSEvents) {
 
         let ability = spell.GetSpellInfo().GetEffect(0).GetMiscValue()
 
-        if(!LearnedAbilities.HasAbility(player, ability)) {
-            LearnedAbilities.Learn(player, ability)
+        if(!Learned_Abilities.HasAbility(player, ability)) {
+            Learned_Abilities.Learn(player, ability)
         }
     })
 }
