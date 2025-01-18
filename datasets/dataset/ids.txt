@@ -1,0 +1,4 @@
+Spell|magic-core:116-Frostbolt|80900|80900|
+Spell|magic-core:133-Fireball|80901|80901|
+item_template|magic-core:116-Frostbolt|60000|60000|
+item_template|magic-core:133-Fireball|60001|60001|
