@@ -1,5 +1,5 @@
 @CharactersTable
-export class Learned_Abilities extends DBEntry {
+export class Learned_Abilities extends DBArrayEntry {
     constructor(player: TSGUID, spell: uint32) {
         super();
         this.player = player;
@@ -9,43 +9,73 @@ export class Learned_Abilities extends DBEntry {
     @DBPrimaryKey
     player: TSGUID = CreateGUID(0, 0);
 
-    @DBPrimaryKey
+    @DBField
     spell: uint32 = 0;
 
     @DBField
     active: uint8 = 0;
 
-    static get(player: TSPlayer, spell: uint32): Learned_Abilities {
-        return player.GetObject('Learned_Abilities', LoadDBEntry(new Learned_Abilities(player.GetGUID(), spell)));
+    static get(player: TSPlayer): DBContainer<Learned_Abilities> {
+        return player.GetObject('Learned_Abilities', LoadDBArrayEntry(Learned_Abilities, player.GetGUID()))
     }
 
-    static HasAbility(player: TSPlayer, spell: uint32) {
-        const ability = Learned_Abilities.get(player, spell)
+    static Learn(player: TSPlayer, ability: uint32) {
+        let entry = Learned_Abilities.get(player)
 
-        return ability.active
+        let array = entry.find(x => x.player == player.GetGUID() && x.spell == ability)
+
+        if (!array) {
+            entry.Add(new Learned_Abilities(player.GetGUID(), ability))
+
+            entry.Save()
+        } else {
+            return
+        }
     }
 
-    static Learn(player: TSPlayer, spell: uint32) {
-        const ability = Learned_Abilities.get(player, spell)
+    static HasAbility(player: TSPlayer, ability: uint32) {
+        let entry = Learned_Abilities.get(player)
 
-        ability.spell = spell
+        let array = entry.find(x => x.player == player.GetGUID() && x.spell == ability)
 
-        ability.Save()
+        return array.active
     }
 
-    static Deactivate(player: TSPlayer, spell: uint32) {
-        const ability = Learned_Abilities.get(player, spell)
+    static Deactivate(player: TSPlayer, ability: uint32) {
+        let entry = Learned_Abilities.get(player)
 
-        ability.active = 0;
+        let array = entry.find(x => x.player == player.GetGUID() && x.spell == ability)
 
-        ability.Save()
+        if (array) {
+            array.active = 0;
+            array.MarkDirty();
+
+            entry.Save()
+        } else {
+            return
+        }
     }
 
-    static Activate(player: TSPlayer, spell: uint32) {
-        const ability = Learned_Abilities.get(player, spell)
+    static Activate(player: TSPlayer, ability: uint32) {
+        let entry = Learned_Abilities.get(player)
 
-        ability.active = 1;
+        let array = entry.find(x => x.player == player.GetGUID() && x.spell == ability)
 
-        ability.Save()
+        if (array) {
+            array.active = 1;
+            array.MarkDirty();
+
+            entry.Save()
+        } else {
+            return
+        }
+    }
+
+    static ActiveCount(player: TSPlayer) {
+        let entry = Learned_Abilities.get(player)
+
+        let array = entry.ToArray().filter(x => x.player == player.GetGUID() && x.active == 1)
+
+        return array.length
     }
 }

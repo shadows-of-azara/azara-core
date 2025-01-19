@@ -1,15 +1,16 @@
-import { ABILITIES } from "../../shared/packets/definitions"
-import { ABILITY_PACKET } from "../../shared/packets/implementations/abilities"
+import { ABILITIES, ABILITIES_DYNAMIC } from "../../shared/packets/definitions"
+import { ABILITY_DYNAMIC, ABILITY_PACKET } from "../../shared/packets/implementations/abilities"
 
 export function Abilities() {
     createFrame()
-    SendAddonMessage('reloaded', "Hello", 'WHISPER', GetUnitName("player", false))
+    SendAddonMessage('reloaded', "reloaded", 'WHISPER', GetUnitName("player", false))
 }
 
 let learnedAbilities = []
 let row = 0
 let column = 0
 let selectedSpell = 0
+let status = 0
 
 let abilityFrame = CreateFrame("Frame", "AbilityFrame", UIParent)
 let infoFrame = CreateFrame("Frame", "AbilityInfo", abilityFrame)
@@ -19,6 +20,7 @@ let selectedAbilityName = infoFrame.CreateFontString("AbilityName", "OVERLAY")
 let selectedAbilityDescription = infoFrame.CreateFontString("AbilityName", "OVERLAY")
 let selectedAbility = CreateFrame("Frame", "CurrentAbility", infoFrame)
 let abilityButton = CreateFrame("Button", "AbilityButton", infoFrame, "UIPanelButtonTemplate")
+let countText = infoFrame.CreateFontString("AbilityName", "OVERLAY")
 let hiddenTooltip = CreateFrame("GameTooltip", "HiddenSpellTooltip", null, "GameTooltipTemplate")
 hiddenTooltip.SetOwner(UIParent, "ANCHOR_NONE")
 
@@ -34,6 +36,23 @@ OnCustomPacket(ABILITIES, packet => {
     let icon = GetSpellInfo(spell)[2]
 
     addAbility(name, desc, icon, spell)
+})
+
+OnCustomPacket(ABILITIES_DYNAMIC, packet => {
+    let ability_dynamic = new ABILITY_DYNAMIC();
+    ability_dynamic.Read(packet)
+
+    let count = ability_dynamic.getCount()
+
+    countText.SetText(`Active Abilities: ` + count)
+
+    if (ability_dynamic.getStatus() == 1) {
+        abilityButton.SetText("Unlearn")
+        status = 1
+    } else {
+        abilityButton.SetText("Learn")
+        status = 0
+    }
 })
 
 function GetSpellDescription(id) {
@@ -90,7 +109,10 @@ function addAbility(name, description, icon, spell) {
         })
         selectedAbility.Show()
         abilityButton.Show()
+        countText.Show()
         selectedSpell = spell
+
+        SendAddonMessage('selected', spell, 'WHISPER', GetUnitName("player", false))
     }
 }
 
@@ -191,9 +213,15 @@ function createFrame() {
     selectedAbilityDescription.Hide()
 
     abilityButton.SetSize(100, 35)
-    abilityButton.SetPoint("RIGHT", infoFrame, "RIGHT", -125, 0)
+    abilityButton.SetPoint("RIGHT", infoFrame, "RIGHT", -125, 10)
     abilityButton.SetText("Learn")
     abilityButton.Hide()
+
+    countText.SetPoint("RIGHT", infoFrame, "RIGHT", 125, -40)
+    countText.SetFont("Fonts\\FRIZQT__.TTF", 16, "OUTLINE")
+    countText.SetWidth(600)
+    countText.SetTextColor(1, 0.82, 0)
+    countText.Hide()
 }
 
 abilityButton.SetScript("OnClick", () => {

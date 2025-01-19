@@ -1,5 +1,5 @@
 import { ABILITIES } from "../../shared/packets/definitions";
-import { ABILITY_PACKET } from "../../shared/packets/implementations/abilities"
+import { ABILITY_DYNAMIC, ABILITY_PACKET } from "../../shared/packets/implementations/abilities"
 import { Learned_Abilities } from "./learned-abilities";
 
 export function AbilityPackets(events: TSEvents) {
@@ -20,8 +20,15 @@ export function AbilityPackets(events: TSEvents) {
             spells.forEach((spell) => {
                 let packet = new ABILITY_PACKET();
                 packet.setSpell(spell)
+                packet.setActiveCount(Learned_Abilities.ActiveCount(player))
                 packet.Write().SendToPlayer(player)
             })
+
+            let ability_dynamic = new ABILITY_DYNAMIC()
+            let count = Learned_Abilities.ActiveCount(player)
+
+            ability_dynamic.setCount(count)
+            ability_dynamic.Write().SendToPlayer(player)
         }
     })
 
@@ -39,9 +46,25 @@ export function AbilityPackets(events: TSEvents) {
                 spells.forEach((spell) => {
                     let packet = new ABILITY_PACKET();
                     packet.setSpell(spell)
+                    packet.setActiveCount(Learned_Abilities.ActiveCount(receiver))
                     packet.Write().SendToPlayer(receiver)
                 })
+
+                let ability_dynamic = new ABILITY_DYNAMIC()
+                let count = Learned_Abilities.ActiveCount(receiver)
+
+                ability_dynamic.setCount(count)
+                ability_dynamic.Write().SendToPlayer(receiver)
             }
+        }
+
+        if (sender == receiver && message.get().startsWith('selected')) {
+            let spell = parseInt(message.get().replace("selected	", ""))
+
+            let packet = new ABILITY_DYNAMIC();
+            packet.setStatus(Learned_Abilities.HasAbility(receiver, spell))
+            packet.setCount(Learned_Abilities.ActiveCount(receiver))
+            packet.Write().SendToPlayer(receiver)
         }
     });
 
@@ -50,14 +73,37 @@ export function AbilityPackets(events: TSEvents) {
             return
         }
 
+        let count = Learned_Abilities.ActiveCount(player)
+
         let parsed = new ABILITY_PACKET();
         parsed.Read(packet)
         let spell = parsed.getSpell()
 
-        if (!Learned_Abilities.HasAbility(player, spell)) {
-            Learned_Abilities.Activate(player, spell)
+        let ability_dynamic = new ABILITY_DYNAMIC()
+
+        if (count < 1) {
+            if (!Learned_Abilities.HasAbility(player, spell)) {
+                Learned_Abilities.Activate(player, spell)
+                player.LearnSpell(spell)
+
+                let count = Learned_Abilities.ActiveCount(player)
+
+                ability_dynamic.setCount(count)
+                ability_dynamic.setStatus(Learned_Abilities.HasAbility(player, spell))
+                ability_dynamic.Write().SendToPlayer(player)
+
+            }
+
         } else {
             Learned_Abilities.Deactivate(player, spell)
+            player.RemoveSpell(spell, false, false)
+
+            let count = Learned_Abilities.ActiveCount(player)
+
+            ability_dynamic.setCount(count)
+            ability_dynamic.setStatus(Learned_Abilities.HasAbility(player, spell))
+            ability_dynamic.Write().SendToPlayer(player)
+
         }
     })
 }
