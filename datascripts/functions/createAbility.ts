@@ -1,7 +1,7 @@
 import { std } from "wow/wotlk";
 
 export function createAbility(name: string, spell: uint32) {
-    const DUMMY_SPELL = std.Spells.create('magic-core', `${spell}-${name}`)
+    const DUMMY_SPELL = std.Spells.create('azara-core', `${spell}-${name}`)
         .Name.enGB.set(`Scroll of ${name}`)
         .Description.enGB.set(`Learn the ability ${name}`)
         .Range.set(1)
@@ -13,9 +13,9 @@ export function createAbility(name: string, spell: uint32) {
             .MiscValueA.set(spell)
         )
         .Attributes.IS_HIDDEN_FROM_LOG.set(true)
-        .Tags.add("magic-core", "LEARN_ABILITY")
+        .Tags.add("azara-core", "LEARN_ABILITY")
 
-    const ABILITY = std.Items.create('magic-core', `${spell}-${name}`)
+    const ABILITY = std.Items.create('azara-core', `${spell}-${name}`)
         .Name.enGB.set(`Scroll of ${name}`)
         .DisplayInfo.set(2616)
         .Class.SCROLL.set()

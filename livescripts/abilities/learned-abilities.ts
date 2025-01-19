@@ -16,7 +16,7 @@ export class Learned_Abilities extends DBEntry {
     active: uint8 = 0;
 
     static get(player: TSPlayer, spell: uint32): Learned_Abilities {
-        return player.GetObject('Abilities', LoadDBEntry(new Learned_Abilities(player.GetGUID(), spell)));
+        return player.GetObject('Learned_Abilities', LoadDBEntry(new Learned_Abilities(player.GetGUID(), spell)));
     }
 
     static HasAbility(player: TSPlayer, spell: uint32) {
