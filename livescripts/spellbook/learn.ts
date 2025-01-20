@@ -1,21 +1,46 @@
-import { SPELLBOOK_PACKET } from "../../shared/packets/implementations/spellbook"
+import { SPELLBOOK_PACKET } from "../../shared/packets/spellbook"
 import { Spellbook } from "./table"
 
 export function Learn(events: TSEvents) {
-    // When a player learns a new ability
-    events.Spell.OnAfterCast(TAG("azara-core", "LEARN_SPELL"), spell => {
+    // When a player starts learning a new ability
+    events.Spell.OnCheckCast(TAG("azara-core", "LEARN_ABILITY"), (spell, result) => {
         const player = ToPlayer(spell.GetCaster())
 
         if (!player) {
             return
         }
 
-        let spellID = spell.GetSpellInfo().GetEffect(0).GetMiscValue()
+        let ability = spell.GetSpellInfo().GetEffect(0).GetMiscValue()
 
-        Spellbook.Learn(player, spellID)
+        // Check if player already has the ability
+        if (Spellbook.HasAbility(player, ability)) {
+            // Already learned
+            result.set(SpellCastResult.FAILED_LEARNED)
+        } else {
+            return
+        }
+    })
 
-        let packet = new SPELLBOOK_PACKET()
-        packet.setSpell(spellID)
-        packet.Write().SendToPlayer(player)
+    // When a player learns a new ability
+    events.Spell.OnAfterCast(TAG("azara-core", "LEARN_ABILITY"), spell => {
+        const player = ToPlayer(spell.GetCaster())
+
+        if (!player) {
+            return
+        }
+
+        let ability = spell.GetSpellInfo().GetEffect(0).GetMiscValue()
+
+        // Check if player already has the ability
+        if (!Spellbook.HasAbility(player, ability)) {
+            // Teach the player the ability
+            Spellbook.Learn(player, ability)
+
+            let packet = new SPELLBOOK_PACKET()
+            packet.setAbility(ability)
+            packet.Write().SendToPlayer(player)
+        } else {
+            return
+        }
     })
 }

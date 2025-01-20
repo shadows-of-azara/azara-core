@@ -1,13 +1,13 @@
-import { SPELLBOOK, SPELLBOOK_DYNAMIC } from "../definitions"
+import { SPELLBOOK, SPELLBOOK_DYNAMIC } from "./definitions"
 
 export class SPELLBOOK_PACKET {
-    private spell: uint32 = 0
+    private ability: uint32 = 0
     private count: uint32 = 0
 
-    getSpell(): uint32 { return this.spell }
+    getAbility(): uint32 { return this.ability }
 
-    setSpell(spell: uint32) {
-        this.spell = spell
+    setAbility(ability: uint32) {
+        this.ability = ability
     }
 
     setCount(count: uint32) {
@@ -15,13 +15,13 @@ export class SPELLBOOK_PACKET {
     }
 
     Read(packet: TSPacketRead) {
-        this.spell = packet.ReadUInt32()
+        this.ability = packet.ReadUInt32()
         this.count = packet.ReadUInt32()
     }
 
     Write(): TSPacketWrite {
         let packet = CreateCustomPacket(SPELLBOOK, 0)
-        packet.WriteUInt32(this.spell)
+        packet.WriteUInt32(this.ability)
         packet.WriteUInt32(this.count)
         return packet
     }

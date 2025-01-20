@@ -23,8 +23,8 @@ const MODEL = std.CreatureOutfits.create().fromString(
     `
 )
 
-export const SPELL_VENDOR = std.CreatureTemplates.create("azara-core", "spell-vendor")
-    .Name.enGB.set("Spell Vendor")
+export const ABILITY_VENDOR = std.CreatureTemplates.create("azara-core", "ability-vendor")
+    .Name.enGB.set("Ability Vendor")
     .Level.set(20)
     .FactionTemplate.STORMWIND.set()
     .UnitClass.WARRIOR.set()
@@ -32,4 +32,4 @@ export const SPELL_VENDOR = std.CreatureTemplates.create("azara-core", "spell-ve
     .Rank.ELITE.set()
     .Models.addIds(MODEL.ID)
     .NPCFlags.VENDOR.set(true)
-    .Spawns.add("azara-core", "spell-vendor", { map: 0, x: -8630.144531, y: -552.395020, z: 145.078461, o: 1.791834 })
+    .Spawns.add("azara-core", "ability-vendor", { map: 0, x: -8630.144531, y: -552.395020, z: 145.078461, o: 1.791834 })

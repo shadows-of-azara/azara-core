@@ -1,16 +1,16 @@
 @CharactersTable
 export class Spellbook extends DBArrayEntry {
-    constructor(player: TSGUID, spell: uint32) {
+    constructor(player: TSGUID, ability: uint32) {
         super()
         this.player = player
-        this.spell = spell
+        this.ability = ability
     }
 
     @DBPrimaryKey
     player: TSGUID = CreateGUID(0, 0)
 
     @DBField
-    spell: uint32 = 0
+    ability: uint32 = 0
 
     @DBField
     active: uint8 = 0
@@ -19,45 +19,35 @@ export class Spellbook extends DBArrayEntry {
         return player.GetObject('Spellbook', LoadDBArrayEntry(Spellbook, player.GetGUID()))
     }
 
-    static Learn(player: TSPlayer, spell: uint32) {
+    static Learn(player: TSPlayer, ability: uint32) {
         let entry = Spellbook.get(player)
 
-        let query = entry.find(x => x.player == player.GetGUID() && x.spell == spell)
+        let query = entry.find(x => x.player == player.GetGUID() && x.ability == ability)
 
         if (!query) {
-            entry.Add(new Spellbook(player.GetGUID(), spell))
+            entry.Add(new Spellbook(player.GetGUID(), ability))
             entry.Save()
         } else {
             return
         }
     }
 
-    static HasSpell(player: TSPlayer, spell: uint32) {
+    static HasAbility(player: TSPlayer, ability: uint32) {
         let entry = Spellbook.get(player)
 
-        let query = entry.find(x => x.player == player.GetGUID() && x.spell == spell)
-
-        return query.active
-    }
-
-    static Deactivate(player: TSPlayer, spell: uint32) {
-        let entry = Spellbook.get(player)
-
-        let query = entry.find(x => x.player == player.GetGUID() && x.spell == spell)
+        let query = entry.find(x => x.player == player.GetGUID() && x.ability == ability)
 
         if (query) {
-            query.active = 0
-            query.MarkDirty()
-            entry.Save()
+            return true
         } else {
-            return
+            return false
         }
     }
 
-    static Activate(player: TSPlayer, spell: uint32) {
+    static ActivateAbility(player: TSPlayer, ability: uint32) {
         let entry = Spellbook.get(player)
 
-        let query = entry.find(x => x.player == player.GetGUID() && x.spell == spell)
+        let query = entry.find(x => x.player == player.GetGUID() && x.ability == ability)
 
         if (query) {
             query.active = 1
@@ -68,7 +58,29 @@ export class Spellbook extends DBArrayEntry {
         }
     }
 
-    static ActiveCount(player: TSPlayer) {
+    static DeactivateAbility(player: TSPlayer, ability: uint32) {
+        let entry = Spellbook.get(player)
+
+        let query = entry.find(x => x.player == player.GetGUID() && x.ability == ability)
+
+        if (query) {
+            query.active = 0
+            query.MarkDirty()
+            entry.Save()
+        } else {
+            return
+        }
+    }
+
+    static IsActive(player: TSPlayer, ability: uint32) {
+        let entry = Spellbook.get(player)
+
+        let query = entry.find(x => x.player == player.GetGUID() && x.ability == ability)
+
+        return query.active
+    }
+
+    static GetActiveCount(player: TSPlayer) {
         let entry = Spellbook.get(player)
 
         let query = entry.ToArray().filter(x => x.player == player.GetGUID() && x.active == 1)

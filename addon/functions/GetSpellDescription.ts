@@ -3,8 +3,13 @@ export function GetSpellDescription(id) {
     hiddenTooltip.SetHyperlink(`spell:${id}`)
     hiddenTooltip.SetSpellByID(id)
 
-    let tooltip: WoWAPI.GameTooltip = _G['HiddenSpellTooltipTextLeft4']
-    return tooltip.GetText()
+    for (let i = 4; i <= 10; i++) {
+        let loopTooltip: WoWAPI.GameTooltip = _G[`HiddenSpellTooltipTextLeft${i}`];
+
+        if (!loopTooltip.GetText().startsWith("Requires")) {
+            return loopTooltip.GetText();
+        }
+    }
 }
 
 export function InitializeTooltip() {
