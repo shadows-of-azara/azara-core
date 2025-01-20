@@ -1,3 +1,5 @@
+import { Spellbook } from "./spellbook/init"
+
 export function Main(events: TSEvents) {
-    // Register your events here!
+    Spellbook(events)
 }
