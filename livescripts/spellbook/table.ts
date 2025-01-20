@@ -19,6 +19,14 @@ export class Spellbook extends DBArrayEntry {
         return player.GetObject('Spellbook', LoadDBArrayEntry(Spellbook, player.GetGUID()))
     }
 
+    static Save(player: TSPlayer) {
+        Spellbook.get(player).Save();
+    }
+
+    static Delete(guid: uint64) {
+        QueryCharacters(`DELETE FROM spellbook WHERE player=${guid}`);
+    }
+
     static Learn(player: TSPlayer, ability: uint32) {
         let entry = Spellbook.get(player)
 
