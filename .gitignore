@@ -19,6 +19,7 @@ datasets/dataset/Buildings/
 datasets/dataset/Cameras/
 datasets/dataset/luaxml/
 datasets/dataset/luaxml_source/
+datasets/dataset/ids.txt
 
 GM.log
 datasets/dataset/modules.txt
