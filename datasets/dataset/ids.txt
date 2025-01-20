@@ -42,9 +42,11 @@ Spell|azara-core:8017-rockbiter-weapon|80934|80934|
 Spell|azara-core:8042-earth-shock|80940|80940|
 Spell|azara-core:8092-mind-blast|80921|80921|
 Spell|azara-core:80945-corruption|80946|80946|
+Spell|azara-core:80947-rend|80948|80948|
 Spell|azara-core:845-cleave|80908|80908|
 Spell|azara-core:8921-moonfire|80929|80929|
 Spell|azara-core:corruption-ability|80945|80945|
+Spell|azara-core:rend-ability|80947|80947|
 creature|azara-core:ability-vendor-0|220001|220001|
 creature|azara-core:spell-vendor-0|220000|220000|
 creature_template|azara-core:ability-vendor|45001|45001|
@@ -106,3 +108,4 @@ item_template|azara-core:845-cleave|60008|60008|
 item_template|azara-core:8921-moonfire|60029|60029|
 item_template|azara-core:corruption-ability-scroll|60056|60056|
 item_template|azara-core:frostbolt-scroll|60044|60044|
+item_template|azara-core:rend-ability-scroll|60057|60057|
