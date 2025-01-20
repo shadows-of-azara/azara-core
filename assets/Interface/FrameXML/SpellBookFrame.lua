@@ -16,15 +16,15 @@ function ToggleSpellBook(bookType)
 		return;
 	end
 	
-	local isShown = AbilityFrame:IsShown();
+	local isShown = SpellFrame:IsShown();
 	if ( isShown and (SpellBookFrame.bookType ~= bookType) ) then
 		SpellBookFrame.suppressCloseSound = true;
 	end
 	
-	HideUIPanel(AbilityFrame);
+	HideUIPanel(SpellFrame);
 	if ( (not isShown or (SpellBookFrame.bookType ~= bookType)) ) then
 		SpellBookFrame.bookType = bookType;
-		ShowUIPanel(AbilityFrame);
+		ShowUIPanel(SpellFrame);
 	end
 	SpellBookFrame_UpdatePages();
 

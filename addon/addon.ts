@@ -1,6 +1,9 @@
-import { Abilities } from "./abilities/abilities";
+import { InitializeTooltip } from "./functions/GetSpellDescription"
+import { Spellbook } from "./frames/spellbook"
+
 function Init() {
-    Abilities()
+    InitializeTooltip()
+    Spellbook()
 }
 
-Init();
+Init()
