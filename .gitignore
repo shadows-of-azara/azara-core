@@ -23,6 +23,7 @@ datasets/dataset/luaxml_source/
 GM.log
 datasets/dataset/modules.txt
 realms/*/worldserver.conf.dist
+realms/*/worldserver.conf
 realms/*/anticheat*
 
 *.tga
