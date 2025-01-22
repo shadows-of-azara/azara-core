@@ -39,8 +39,6 @@ realms/*/anticheat*
 
 *.pdb
 
-datasets/dataset/dataset.conf
-
 deploy/.env
 deploy/tmp/*
 
