@@ -5,10 +5,10 @@ import { createAbility } from "../../functions/createAbility";
 const MANA_RESTORE = std.Spells.create("azara-core", "mana-restore")
     .Name.enGB.set("Mana Restore")
     .Description.enGB.set("Restores $s1 mana.")
-    .Attributes.set(["IS_ABILITY","IS_PASSIVE","IS_HIDDEN_IN_SPELLBOOK"])
+    .Attributes.set(["IS_ABILITY", "IS_PASSIVE", "IS_HIDDEN_IN_SPELLBOOK"])
     .SchoolMask.set(["PHYSICAL"])
     .Power.Type.MANA.set()
-    .Effects.addMod(x=>x
+    .Effects.addMod(x => x
         .Type.ENERGIZE.set()
         .PowerType.MANA.set()
         .ChainAmplitude.set(1)
@@ -17,15 +17,15 @@ const MANA_RESTORE = std.Spells.create("azara-core", "mana-restore")
 
 // Create Spell //
 const SPELL = std.Spells.create("azara-core", "arcane-bolt-ability")
-export const ARCANE_BOLT = createAbility(SPELL.ID)
+
 SPELL.Name.enGB.set("Arcane Bolt")
     .Description.enGB.set("Sends a magical bolt at the enemy, causing $s1 Arcane damage. Restores 25% of mana cost if the spell critically hits the target.")
     .Icon.setPath("Spell_Arcane_Starfire")
     .PreventionType.SILENCE.set()
     .FacingCasterFlags.set(["SPELL_FACING_FLAG_INFRONT"])
     .Attributes.set(["NOT_SHAPESHIFTED"])
-    .InterruptFlags.set(["ON_MOVEMENT","ON_PUSHBACK","ON_INTERRUPT_CAST","ON_INTERRUPT"])
-    .SchoolMask.set(["PHYSICAL","ARCANE"])
+    .InterruptFlags.set(["ON_MOVEMENT", "ON_PUSHBACK", "ON_INTERRUPT_CAST", "ON_INTERRUPT"])
+    .SchoolMask.set(["PHYSICAL", "ARCANE"])
     .Visual.set(271)
     .DefenseType.set(1)
     .Speed.set(20)
@@ -44,16 +44,18 @@ SPELL.Name.enGB.set("Arcane Bolt")
         .ImplicitTargetA.UNIT_TARGET_ENEMY.set()
     )
     // Restores 25% of Ability cost on crit. //
-    .InlineScripts.OnDamageLate((spell,damage,info,type,crit) => {
+    .InlineScripts.OnDamageLate((spell, damage, info, type, crit) => {
         const caster = ToUnit(spell.GetCaster());
         const cost = spell.GetPowerCost();
-        if (! spell || ! info || ! caster || ! cost)
+        if (!spell || !info || !caster || !cost)
             return;
 
-        if (! crit)
+        if (!crit)
             return;
 
         const value = Math.round(cost * 0.25);
 
-        caster.CastCustomSpell(caster,GetID("Spell","azara-core","mana-restore"),true,value)
+        caster.CastCustomSpell(caster, GetID("Spell", "azara-core", "mana-restore"), true, value)
     })
+
+export const ARCANE_BOLT = createAbility(SPELL.ID)
