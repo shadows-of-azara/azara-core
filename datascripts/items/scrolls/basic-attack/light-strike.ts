@@ -1,10 +1,10 @@
 import { std } from "wow/wotlk"
-import { CORRUPTION } from "../../../abilities/dot/corruption"
 import { ABILITY_VENDOR } from "../../../creatures/ability-vendor"
+import { LIGHT_STRIKE } from "../../../abilities/basic-attack/light-strike"
 
 // Create scroll item for ability //
-const SCROLL = std.Items.create("azara-core", `corruption-ability-scroll`)
-    .Name.enGB.set(`Scroll of Corruption`)
+const SCROLL = std.Items.create("azara-core", `light-strike-ability-scroll`)
+    .Name.enGB.set(`Scroll of Light Strike`)
     .DisplayInfo.set(2616)
     .Class.SCROLL.set()
     .Material.CLOTH.set()
@@ -12,10 +12,10 @@ const SCROLL = std.Items.create("azara-core", `corruption-ability-scroll`)
     .BagFamily.INSCRIPTION_SUPPLIES.set(true)
     .Price.PlayerSellPrice.set(1000)
     .Spells.addMod(mod => mod
-        .Spell.set(CORRUPTION.ID)
+        .Spell.set(LIGHT_STRIKE.ID)
         .Charges.Raw.set(-1)
         .Trigger.ON_USE.set()
     )
-    
-// Add to Vendor //    
+
+// Add to Vendor //
 ABILITY_VENDOR.Vendor.add(SCROLL.ID)
