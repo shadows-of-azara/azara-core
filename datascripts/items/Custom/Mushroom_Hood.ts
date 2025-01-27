@@ -1,0 +1,28 @@
+import { std } from "wow/wotlk"
+
+std.Items.create('azara-core','mushroom-hood')
+    .Name.enGB.set('Mushroom Hood')
+    .ItemSetName.enGB.set('Mushroom Hood')
+    .Bonding.BINDS_ON_EQUIP.set()
+    .Class.CLOTH_EQUIP.set()
+    .InventoryType.HEAD.set()
+    .Material.CLOTH.set()
+    .Quality.WHITE.set()
+    .Armor.set(94)
+    .Disenchant.set(44)
+    .Durability.set(60)
+    .Price.PlayerBuyPrice.set(20417)
+    .Price.PlayerSellPrice.set(4083)
+    .Price.BuyCount.set(1)
+    .RequiredLevel.set(1)
+    .ItemLevel.set(37)
+    .MaxStack.set(1)
+    .SoundOverride.set(-1)
+
+    .DisplayInfo.modRefCopy('azara-core','mushroom-hood-display',x=>x
+        .Icon.set('INV_Helmet_15')
+        .Models.set(0,'Mushroom_Hood.mdx')
+        .HelmGeosetVis.setIndex(0,249)
+        .HelmGeosetVis.setIndex(1,305)
+        .GroupSoundIndex.set(7)
+    )
