@@ -9,13 +9,16 @@ export function Spellbook() {
 }
 
 let limit = 6
-let count = 0;
+let count = 0
 
 let row = 0
 let column = 0
 
-let abilities = []
+let abilities: Ability[] = []
+let filteredAbilities: Ability[] = []
 let currentAbility: Ability
+
+let abilityFrames: TSArray<WoWAPI.Frame> = []
 
 let spellFrame = CreateFrame("Frame", "SpellFrame", UIParent)
 let infoFrame = CreateFrame("Frame", "SpellInfoFrame", spellFrame)
@@ -87,13 +90,14 @@ Events.ChatInfo.OnChatMsgAddon(spellFrame, (opcode, message, channel, sender) =>
             }
         }
     }
-});
+})
 
 function createAbility(ability: Ability) {
     let name = ability.getName()
     let icon = ability.getIcon()
+    let spell = ability.getSpell()
 
-    let abilityFrame = CreateFrame("Button", "AbilityFrame", listContent)
+    let abilityFrame = CreateFrame("Button", `AbilityFrame${abilities.length}`, listContent)
     abilityFrame.SetPoint("TOPLEFT", listContent, "TOPLEFT", (column * 110) + 20, -row * 128)
     abilityFrame.SetSize(64, 64)
     abilityFrame.SetBackdrop({
@@ -107,6 +111,7 @@ function createAbility(ability: Ability) {
     abilityFrame.SetScript("OnClick", () => {
         selectAbility(ability)
     })
+    abilityFrame.SetID(spell)
 
     let abilityName = spellFrame.CreateFontString("AbilityName", "OVERLAY")
     abilityName.SetPoint("CENTER", abilityFrame, "BOTTOM", 0, -20)
@@ -115,6 +120,7 @@ function createAbility(ability: Ability) {
     abilityName.SetText(name)
     abilityName.SetTextColor(1, 0.82, 0)
     abilityName.SetWordWrap(true)
+    abilityName.SetParent(abilityFrame)
 
     if (column == 5) {
         column = 0
@@ -122,6 +128,8 @@ function createAbility(ability: Ability) {
     } else {
         column++
     }
+
+    abilityFrames.push(abilityFrame)
 }
 
 function selectAbility(ability: Ability) {
@@ -258,6 +266,59 @@ function Init() {
     countText.SetWidth(600)
     countText.SetTextColor(1, 0.82, 0)
     countText.Hide()
+
+    let searchBox = CreateFrame("EditBox", "SearchBox", listContent, "InputBoxTemplate")
+    searchBox.SetSize(200, 32)
+    searchBox.SetPoint("BOTTOM", 0, 0)
+    searchBox.SetAutoFocus(false)
+    searchBox.SetScript("OnTextChanged", () => {
+        let keyword = searchBox.GetText().toLowerCase()
+        filteredAbilities = abilities.filter((ability) =>
+            ability.getName().toLowerCase().includes(keyword)
+        )
+
+        filter()
+    })
+
+    let searchTitle = searchBox.CreateFontString("SearchTitle", "OVERLAY")
+    searchTitle.SetPoint("LEFT", searchBox, "LEFT", 0, 20)
+    searchTitle.SetFont("Fonts\\FRIZQT__.TTF", 14, "OUTLINE")
+    searchTitle.SetWidth(600)
+    searchTitle.SetJustifyH("LEFT")
+    searchTitle.SetText("Search Abilities")
+
+    let clearButton = CreateFrame("Button", "ClearButton", searchBox, "UIPanelButtonTemplate")
+    clearButton.SetSize(20, 22)
+    clearButton.SetPoint("LEFT", searchBox, "RIGHT", -4, 1)
+    clearButton.SetText("X")
+    clearButton.SetScript("OnClick", () => {
+        searchBox.SetText("")
+        searchBox.ClearFocus()
+        filteredAbilities = abilities
+
+        filter()
+    })
+}
+
+function filter() {
+    column = 0
+    row = 0
+
+    abilityFrames.forEach((frame) => {
+        frame.Hide()
+        filteredAbilities.forEach(filtered => {
+            if (filtered.getSpell() == frame.GetID()) {
+                frame.Show()
+                frame.SetPoint("TOPLEFT", listContent, "TOPLEFT", (column * 110) + 20, -row * 128)
+                if (column == 5) {
+                    column = 0
+                    row++
+                } else {
+                    column++
+                }
+            }
+        })
+    })
 }
 
 abilityButton.SetScript("OnClick", () => {
