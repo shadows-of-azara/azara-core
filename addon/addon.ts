@@ -1,4 +1,4 @@
-import { InitializeTooltip } from "./functions/GetSpellDescription"
+import { InitializeTooltip } from "./functions/GetSpellDesc"
 import { Spellbook } from "./frames/spellbook"
 
 function Init() {
