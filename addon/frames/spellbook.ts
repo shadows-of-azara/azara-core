@@ -1,6 +1,7 @@
-import { SPELLBOOK, SPELLBOOK_DYNAMIC } from "../../shared/packets/definitions"
-import { SPELLBOOK_DYNAMIC_PACKET, SPELLBOOK_PACKET } from "../../shared/packets/spellbook"
-import { GetSpellDescription } from "../functions/GetSpellDescription"
+import { SPELLBOOK } from "../../shared/packets/definitions"
+import { SPELLBOOK_PACKET } from "../../shared/packets/spellbook"
+import { GetSpellDesc } from "../functions/GetSpellDesc"
+import { Ability } from "../objects/ability"
 
 export function Spellbook() {
     Init()
@@ -8,69 +9,90 @@ export function Spellbook() {
 }
 
 let limit = 6
+let count = 0;
 
 let row = 0
 let column = 0
-let currentAbility = 0
-let status = 0
+
+let abilities = []
+let currentAbility: Ability
 
 let spellFrame = CreateFrame("Frame", "SpellFrame", UIParent)
 let infoFrame = CreateFrame("Frame", "SpellInfoFrame", spellFrame)
 let listFrame = CreateFrame("ScrollFrame", "SpellListFrame", spellFrame, "UIPanelScrollFrameTemplate")
 let listContent = CreateFrame("Frame", "SpellListContentFrame", listFrame)
 let selectedAbilityName = infoFrame.CreateFontString("AbilityName", "OVERLAY")
-let selectedAbilityDescription = infoFrame.CreateFontString("AbilityDesc", "OVERLAY")
+let selectedAbilityDesc = infoFrame.CreateFontString("AbilityDesc", "OVERLAY")
 let selectedAbility = CreateFrame("Frame", "CurrentAbilityFrame", infoFrame)
 let abilityButton = CreateFrame("Button", "AbilityButton", infoFrame, "UIPanelButtonTemplate")
 let countText = infoFrame.CreateFontString("AbilityCount", "OVERLAY")
 
-let abilities = []
-
 OnCustomPacket(SPELLBOOK, packet => {
     let parsed = new SPELLBOOK_PACKET()
     parsed.Read(packet)
+    parsed.getAbilities().forEach(spell => {
+        let ability = new Ability()
 
-    let spell = parsed.getAbility()
+        ability.setName(GetSpellInfo(spell)[0])
+        ability.setDesc(GetSpellDesc(spell))
+        ability.setIcon(GetSpellInfo(spell)[2])
+        ability.setSpell(spell)
 
-    let name = GetSpellInfo(spell)[0]
-    let desc = GetSpellDescription(spell)
-    let icon = GetSpellInfo(spell)[2]
+        if (!abilities.includes(ability)) {
+            abilities.push(ability)
+            createAbility(ability)
+        }
+    })
 
-    if (!abilities.includes(spell)) {
-        abilities.push(spell)
-        createAbility(name, desc, icon, spell)
-    }
+    count = parsed.getCount()
 })
 
-OnCustomPacket(SPELLBOOK_DYNAMIC, packet => {
-    let parsed = new SPELLBOOK_DYNAMIC_PACKET()
-    parsed.Read(packet)
+Events.ChatInfo.OnChatMsgAddon(spellFrame, (opcode, message, channel, sender) => {
+    let status = 0
 
-    let count = parsed.getCount()
+    if (sender == GetUnitName("player", false)) {
+        if (opcode.startsWith("abilityStatus")) {
+            status = parseInt(message.replace("status ", ""))
+            if (status == 1) {
+                abilityButton.SetText("Unlearn")
+                abilityButton.Enable()
+            } else {
+                abilityButton.SetText("Learn")
+            }
+        }
 
-    countText.SetText(`Remaining Abilities: ${limit - count}`)
+        if (opcode.startsWith("abilityCount")) {
+            count = parseInt(message.replace("count ", ""))
+            countText.SetText(`Remaining Abilities: ${limit - count}`)
 
-    if (count == limit) {
-        countText.SetTextColor(255, 0, 0)
-    } else {
-        countText.SetTextColor(1, 0.82, 0)
-    }
+            if (count == limit) {
+                countText.SetTextColor(255, 0, 0)
+            } else {
+                countText.SetTextColor(1, 0.82, 0)
+            }
+        }
 
-    if (parsed.getStatus() == 1) {
-        abilityButton.SetText("Unlearn")
-        abilityButton.Enable()
-        status = 1
-    } else {
-        abilityButton.SetText("Learn")
-        status = 0
+        if (opcode.startsWith("abilityLearned")) {
+            let ability = new Ability()
+            let spell = parseInt(message.replace("abilityLearned ", ""))
 
-        if (count == limit) {
-            abilityButton.Disable()
+            ability.setName(GetSpellInfo(spell)[0])
+            ability.setDesc(GetSpellDesc(spell))
+            ability.setIcon(GetSpellInfo(spell)[2])
+            ability.setSpell(spell)
+
+            if (!abilities.includes(ability)) {
+                abilities.push(ability)
+                createAbility(ability)
+            }
         }
     }
-})
+});
 
-function createAbility(name, description, icon, spell) {
+function createAbility(ability: Ability) {
+    let name = ability.getName()
+    let icon = ability.getIcon()
+
     let abilityFrame = CreateFrame("Button", "AbilityFrame", listContent)
     abilityFrame.SetPoint("TOPLEFT", listContent, "TOPLEFT", (column * 110) + 20, -row * 128)
     abilityFrame.SetSize(64, 64)
@@ -83,7 +105,7 @@ function createAbility(name, description, icon, spell) {
         insets: { left: 3, right: 3, top: 3, bottom: 3 }
     })
     abilityFrame.SetScript("OnClick", () => {
-        selectAbility(name, description, icon, spell)
+        selectAbility(ability)
     })
 
     let abilityName = spellFrame.CreateFontString("AbilityName", "OVERLAY")
@@ -102,11 +124,16 @@ function createAbility(name, description, icon, spell) {
     }
 }
 
-function selectAbility(name, description, icon, ability) {
+function selectAbility(ability: Ability) {
+    let name = ability.getName()
+    let desc = ability.getDesc()
+    let icon = ability.getIcon()
+    let spell = ability.getSpell()
+
     selectedAbilityName.SetText(name)
     selectedAbilityName.Show()
-    selectedAbilityDescription.SetText(description)
-    selectedAbilityDescription.Show()
+    selectedAbilityDesc.SetText(desc)
+    selectedAbilityDesc.Show()
     selectedAbility.SetBackdrop({
         bgFile: icon,
         edgeFile: "Interface\\Tooltips\\UI-Tooltip-Border",
@@ -120,7 +147,11 @@ function selectAbility(name, description, icon, ability) {
     countText.Show()
     currentAbility = ability
 
-    SendAddonMessage('selected', ability, 'WHISPER', GetUnitName("player", false))
+    if (count == limit) {
+        abilityButton.Disable()
+    }
+
+    SendAddonMessage('abilitySelected', `${spell}`, 'WHISPER', GetUnitName("player", false))
 }
 
 function Init() {
@@ -208,14 +239,14 @@ function Init() {
     selectedAbilityName.SetJustifyH("LEFT")
     selectedAbilityName.Hide()
 
-    selectedAbilityDescription.SetPoint("LEFT", infoFrame, "LEFT", 100, -50)
-    selectedAbilityDescription.SetFont("Fonts\\FRIZQT__.TTF", 16, "0")
-    selectedAbilityDescription.SetWidth(400)
-    selectedAbilityDescription.SetHeight(300)
-    selectedAbilityDescription.SetTextColor(1, 0.82, 0)
-    selectedAbilityDescription.SetJustifyH("LEFT")
-    selectedAbilityDescription.SetWordWrap(true)
-    selectedAbilityDescription.Hide()
+    selectedAbilityDesc.SetPoint("LEFT", infoFrame, "LEFT", 100, -50)
+    selectedAbilityDesc.SetFont("Fonts\\FRIZQT__.TTF", 16, "0")
+    selectedAbilityDesc.SetWidth(400)
+    selectedAbilityDesc.SetHeight(300)
+    selectedAbilityDesc.SetTextColor(1, 0.82, 0)
+    selectedAbilityDesc.SetJustifyH("LEFT")
+    selectedAbilityDesc.SetWordWrap(true)
+    selectedAbilityDesc.Hide()
 
     abilityButton.SetSize(100, 35)
     abilityButton.SetPoint("RIGHT", infoFrame, "RIGHT", -125, 10)
@@ -230,7 +261,5 @@ function Init() {
 }
 
 abilityButton.SetScript("OnClick", () => {
-    let packet = new SPELLBOOK_PACKET()
-    packet.setAbility(currentAbility)
-    packet.Write().Send()
+    SendAddonMessage("abilityState", `${currentAbility.getSpell()}`, "WHISPER", GetUnitName("player", false))
 })
