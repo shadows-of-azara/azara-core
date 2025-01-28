@@ -4,11 +4,11 @@ import { createAbility } from "../../functions/createAbility";
 // Create Spell //
 const SPELL = std.Spells.create("azara-core", "light-strike")
     .Name.enGB.set("Light Strike")
-    .Description.enGB.set("A melee attack that increases attack power by $s1.")
+    .Description.enGB.set("A melee attack that does your weapon damage plus $s1 to the target.")
     .Icon.setPath("Ability_MeleeDamage")
     .PreventionType.PACIFY.set()
     .FacingCasterFlags.set("SPELL_FACING_FLAG_INFRONT")
-    .Attributes.set(['NEXT_SWING','NEXT_SWING2','NOT_SHAPESHIFTED','SHEATHE_UNCHANGED','MAINHAND_REQUIRED'])
+    .Attributes.set(['NEXT_SWING','NOT_SHAPESHIFTED','SHEATHE_UNCHANGED','MAINHAND_REQUIRED'])
     .SchoolMask.set(['PHYSICAL'])
     .DefenseType.set(2)
     .CastTime.set(6000)
