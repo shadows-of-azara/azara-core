@@ -1,4 +1,3 @@
-import { SPELLBOOK_PACKET } from "../../shared/packets/spellbook"
 import { Spellbook } from "./table"
 
 export function Learn(events: TSEvents) {
@@ -36,9 +35,7 @@ export function Learn(events: TSEvents) {
             // Teach the player the ability
             Spellbook.Learn(player, ability)
 
-            let packet = new SPELLBOOK_PACKET()
-            packet.setAbility(ability)
-            packet.Write().SendToPlayer(player)
+            player.SendAddonMessage("abilityLearned", `${ability}`, 0, player)
         } else {
             return
         }
