@@ -1,5 +1,6 @@
 import { std } from "wow/wotlk";
 import { createAbility } from "../../functions/createAbility";
+import { AbilityCategory } from "../../functions/abilityCategory";
 
 const SPELL = std.Spells.create("azara-core", "corruption-ability")
     .Name.enGB.set("Corruption")
@@ -28,4 +29,4 @@ const SPELL = std.Spells.create("azara-core", "corruption-ability")
         .ImplicitTargetA.UNIT_TARGET_ENEMY.set()
     )
 
-export const CORRUPTION = createAbility(SPELL.ID, true)
+export const CORRUPTION = createAbility(SPELL.ID, AbilityCategory.DAMAGE_OVER_TIME, true)
