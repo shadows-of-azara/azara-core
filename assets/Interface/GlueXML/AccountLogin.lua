@@ -71,6 +71,8 @@ function AccountLogin_OnShow(self)
 	ACCOUNT_MSG_HEADERS_LOADED = false;
 	ACCOUNT_MSG_BODY_LOADED = false;
 	ACCOUNT_MSG_CURRENT_INDEX = nil;
+
+	WorldOfWarcraftRating:Hide()
 end
 
 function AccountLogin_OnHide(self)

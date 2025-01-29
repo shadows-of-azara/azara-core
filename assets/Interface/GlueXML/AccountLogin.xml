@@ -360,7 +360,7 @@
 									<Anchors>
 										<Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT">
 											<Offset>
-												<AbsDimension x="-8" y="-10"/>
+												<AbsDimension x="-8000" y="-10"/>
 											</Offset>
 										</Anchor>
 									</Anchors>
@@ -387,24 +387,9 @@
 							</OnClick>
 						</Scripts>
 					</Button>
-					<Button name="AccountLoginCinematicsButton" inherits="GlueButtonSmallTemplateBlue" text="CINEMATICS">
-						<Anchors>
-							<Anchor point="BOTTOM" relativeTo="AccountLoginCreditsButton" relativePoint="TOP">
-								<Offset>
-									<AbsDimension x="0" y="-2"/>
-								</Offset>
-							</Anchor>
-						</Anchors>
-						<Scripts>
-							<OnClick> 
-								PlaySound("gsTitleOptions");
-								AccountLogin_Cinematics();
-							</OnClick>
-						</Scripts>
-					</Button>
 					<Button name="OptionsButton" inherits="GlueButtonSmallTemplateBlue" text="OPTIONS">
 						<Anchors>
-							<Anchor point="BOTTOM" relativeTo="AccountLoginCinematicsButton" relativePoint="TOP">
+							<Anchor point="BOTTOM" relativeTo="AccountLoginCreditsButton" relativePoint="TOP">
 								<Offset>
 									<AbsDimension x="0" y="-2"/>
 								</Offset>
@@ -421,7 +406,7 @@
 						<Anchors>
 							<Anchor point="BOTTOMLEFT">
 								<Offset>
-									<AbsDimension x="10" y="135"/>
+									<AbsDimension x="10" y="50"/>
 								</Offset>
 							</Anchor>
 						</Anchors>

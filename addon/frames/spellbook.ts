@@ -91,8 +91,10 @@ function createAbility(ability: Ability) {
     let spell = ability.getSpell()
 
     let abilityFrame = CreateFrame("Button", `AbilityFrame${name}`, listContent)
+    abilityFrame.SetID(spell)
     abilityFrame.SetPoint("TOPLEFT", listContent, "TOPLEFT", (column * 110) + 20, -row * 128)
     abilityFrame.SetSize(64, 64)
+    abilityFrame.RegisterForDrag("LeftButton")
     abilityFrame.SetBackdrop({
         bgFile: icon,
         edgeFile: "Interface\\Tooltips\\UI-Tooltip-Border",
@@ -104,7 +106,21 @@ function createAbility(ability: Ability) {
     abilityFrame.SetScript("OnClick", () => {
         selectAbility(ability)
     })
-    abilityFrame.SetID(spell)
+    abilityFrame.SetScript("OnDragStart", () => {
+        PickupSpell(name)
+    })
+
+    // Do we want a tooltip? //
+    /**
+    abilityFrame.SetScript("OnEnter", () => {
+        GameTooltip.SetOwner(abilityFrame, "ANCHOR_RIGHT")
+        GameTooltip.SetHyperlink(`spell:${spell}`)
+        GameTooltip.SetSpellByID(spell)
+    })
+    abilityFrame.SetScript("OnLeave", () => {
+        GameTooltip.SetOwner(UIParent, "ANCHOR_NONE")
+    })
+    */
 
     let abilityName = spellFrame.CreateFontString("AbilityName", "OVERLAY")
     abilityName.SetPoint("CENTER", abilityFrame, "BOTTOM", 0, -20)

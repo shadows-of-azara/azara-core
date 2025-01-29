@@ -33,10 +33,6 @@ export function createAbility(spell: uint32, category: AbilityCategory, isDefaul
 
         DEFAULT_ABILITIES.push(spell)
 
-        LOADED_SPELL.SkillLines.addMod(category, 0, 0, skill => skill
-            .AcquireMethod.LEARN_ON_CREATE.set()
-        )
-
     } else {
         LOADED_SPELL.SkillLines.add(category)
     }
