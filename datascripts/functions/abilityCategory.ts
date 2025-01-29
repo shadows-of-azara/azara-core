@@ -47,14 +47,7 @@ class Category {
     }
 
     private enableSkill() {
-        const RACES: MaskCon<keyof typeof RaceMask> = ["HUMAN", "DWARF", "NIGHTELF"]
-        if (this.skill.RaceClassInfos.length === 0) {
-            this.skill.enableAutolearn(PLAYER_CLASS.Mask, RACES)
-        } else {
-            this.skill.RaceClassInfos.forEach(x => x.ClassMask.add(PLAYER_CLASS.Mask).RaceMask.add(RACES))
-            this.skill.Autolearn.addGet(PLAYER_CLASS.Mask, RACES)
-        }
-
+        this.skill.enableAutolearn(PLAYER_CLASS.Mask)
         this.spell.AutoLearn.add(1, PLAYER_CLASS.Mask)
     }
 
