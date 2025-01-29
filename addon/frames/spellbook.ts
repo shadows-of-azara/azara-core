@@ -14,11 +14,10 @@ let count = 0
 let row = 0
 let column = 0
 
-let abilities: Ability[] = []
-let filteredAbilities: Ability[] = []
 let currentAbility: Ability
 
-let abilityFrames: TSArray<WoWAPI.Frame> = []
+let abilities: TSArray<WoWAPI.Frame> = []
+let filteredAbilities: TSArray<WoWAPI.Frame> = []
 
 let spellFrame = CreateFrame("Frame", "SpellFrame", UIParent)
 let infoFrame = CreateFrame("Frame", "SpellInfoFrame", spellFrame)
@@ -41,10 +40,7 @@ OnCustomPacket(SPELLBOOK, packet => {
         ability.setIcon(GetSpellInfo(spell)[2])
         ability.setSpell(spell)
 
-        if (!abilities.includes(ability)) {
-            abilities.push(ability)
-            createAbility(ability)
-        }
+        abilities.push(createAbility(ability))
     })
 
     count = parsed.getCount()
@@ -84,10 +80,7 @@ Events.ChatInfo.OnChatMsgAddon(spellFrame, (opcode, message, channel, sender) =>
             ability.setIcon(GetSpellInfo(spell)[2])
             ability.setSpell(spell)
 
-            if (!abilities.includes(ability)) {
-                abilities.push(ability)
-                createAbility(ability)
-            }
+            abilities.push(createAbility(ability))
         }
     }
 })
@@ -97,7 +90,7 @@ function createAbility(ability: Ability) {
     let icon = ability.getIcon()
     let spell = ability.getSpell()
 
-    let abilityFrame = CreateFrame("Button", `AbilityFrame${abilities.length}`, listContent)
+    let abilityFrame = CreateFrame("Button", `AbilityFrame${name}`, listContent)
     abilityFrame.SetPoint("TOPLEFT", listContent, "TOPLEFT", (column * 110) + 20, -row * 128)
     abilityFrame.SetSize(64, 64)
     abilityFrame.SetBackdrop({
@@ -129,7 +122,7 @@ function createAbility(ability: Ability) {
         column++
     }
 
-    abilityFrames.push(abilityFrame)
+    return abilityFrame
 }
 
 function selectAbility(ability: Ability) {
@@ -274,7 +267,7 @@ function Init() {
     searchBox.SetScript("OnTextChanged", () => {
         let keyword = searchBox.GetText().toLowerCase()
         filteredAbilities = abilities.filter((ability) =>
-            ability.getName().toLowerCase().includes(keyword)
+            ability.GetName().replace("AbilityFrame", "").toLowerCase().includes(keyword)
         )
 
         filter()
@@ -304,10 +297,10 @@ function filter() {
     column = 0
     row = 0
 
-    abilityFrames.forEach((frame) => {
+    abilities.forEach((frame) => {
         frame.Hide()
         filteredAbilities.forEach(filtered => {
-            if (filtered.getSpell() == frame.GetID()) {
+            if (filtered.GetID() == frame.GetID()) {
                 frame.Show()
                 frame.SetPoint("TOPLEFT", listContent, "TOPLEFT", (column * 110) + 20, -row * 128)
                 if (column == 5) {
