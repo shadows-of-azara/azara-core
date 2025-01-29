@@ -1,10 +1,10 @@
 import { std } from "wow/wotlk"
 import { ABILITY_VENDOR } from "../../../creatures/ability-vendor"
-import { HEAVY_STRIKE } from "../../../abilities/basic-attack/heavy-strike"
+import { SHADOW_BOLT } from "../../../abilities/basic-attack/shadow-bolt"
 
 // Create scroll item for ability //
-const SCROLL = std.Items.create("azara-core", `heavy-strike-ability-scroll`)
-    .Name.enGB.set(`Scroll of Heavy Strike`)
+const SCROLL = std.Items.create("azara-core", `shadow-bolt-ability-scroll`)
+    .Name.enGB.set(`Scroll of Shadow Bolt`)
     .DisplayInfo.set(2616)
     .Class.SCROLL.set()
     .Material.CLOTH.set()
@@ -12,10 +12,10 @@ const SCROLL = std.Items.create("azara-core", `heavy-strike-ability-scroll`)
     .BagFamily.INSCRIPTION_SUPPLIES.set(true)
     .Price.PlayerSellPrice.set(1000)
     .Spells.addMod(mod => mod
-        .Spell.set(HEAVY_STRIKE.ID)
+        .Spell.set(SHADOW_BOLT.ID)
         .Charges.Raw.set(-1)
         .Trigger.ON_USE.set()
     )
 
-// Add to Vendor //
+// Add to Vendor //    
 ABILITY_VENDOR.Vendor.add(SCROLL.ID)
