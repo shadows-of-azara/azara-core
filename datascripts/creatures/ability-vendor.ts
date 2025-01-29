@@ -1,4 +1,8 @@
 import { std } from "wow/wotlk"
+import { createScroll } from "../functions/createScroll"
+import { ARCANE_BOLT } from "../abilities/basic-attack/arcane-bolt"
+import { REND } from "../abilities/dot/rend"
+import { CORRUPTION } from "../abilities/dot/corruption"
 
 const MODEL = std.CreatureOutfits.create().fromString(
     `
@@ -23,6 +27,12 @@ const MODEL = std.CreatureOutfits.create().fromString(
     `
 )
 
+const SCROLLS = [
+    createScroll(ARCANE_BOLT),
+    createScroll(CORRUPTION),
+    createScroll(REND, true)
+]
+
 export const ABILITY_VENDOR = std.CreatureTemplates.create("azara-core", "ability-vendor")
     .Name.enGB.set("Ability Vendor")
     .Level.set(20)
@@ -33,3 +43,7 @@ export const ABILITY_VENDOR = std.CreatureTemplates.create("azara-core", "abilit
     .Models.addIds(MODEL.ID)
     .NPCFlags.VENDOR.set(true)
     .Spawns.add("azara-core", "ability-vendor", { map: 0, x: -8940.504883, y: -141.321716, z: 83.484573, o: 0.844251},)
+
+SCROLLS.forEach(scroll => {
+    ABILITY_VENDOR.Vendor.add(scroll.ID)
+})
