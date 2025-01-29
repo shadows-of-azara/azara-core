@@ -58,6 +58,7 @@
 						</FontString>
 					</Layer>
 					<Layer level="OVERLAY">
+						<!--
 						<Texture name="AccountLoginLogo" file="Interface\Glues\Common\Glues-WoW-WotLKLogo">
 							<Size>
 								<AbsDimension x="256" y="128"/>
@@ -70,6 +71,7 @@
 								</Anchor>
 							</Anchors>
 						</Texture>
+						!-->
 						<Texture name="WorldOfWarcraftRating" hidden="true">
 							<Size>
 								<AbsDimension x="128" y="128"/>
