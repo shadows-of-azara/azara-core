@@ -43,6 +43,7 @@ SPELL.Name.enGB.set("Arcane Bolt")
         .BonusMultiplier.set(0.14000000059604645)
         .ImplicitTargetA.UNIT_TARGET_ENEMY.set()
     )
+
     // Restores 25% of Ability cost on crit. //
     .InlineScripts.OnDamageLate((spell, damage, info, type, crit) => {
         const caster = ToUnit(spell.GetCaster());
