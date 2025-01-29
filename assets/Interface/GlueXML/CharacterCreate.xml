@@ -400,8 +400,8 @@
 							<Layer level="BACKGROUND">
 								<Texture name="CharacterCreateConfigurationBackground" file="Interface\Tooltips\UI-Tooltip-Background">
 									<Anchors>
-										<Anchor point="TOPLEFT" relativeTo="CharacterCreateOuterBorder1" relativePoint="TOPLEFT" x="10" y="-8"/>
-										<Anchor point="BOTTOMRIGHT" relativeTo="CharacterCreateOuterBorder3" relativePoint="BOTTOMRIGHT" x="-10" y="8"/>
+										<Anchor point="TOPLEFT" relativeTo="CharacterCreateOuterBorder1" relativePoint="TOPLEFT" x="10" y="-4"/>
+										<Anchor point="BOTTOMRIGHT" relativeTo="CharacterCreateOuterBorder3" relativePoint="BOTTOMRIGHT" x="-10" y="4"/>
 									</Anchors>
 								</Texture>
 							</Layer>
