@@ -1,5 +1,6 @@
 import { std } from "wow/wotlk";
 import { createAbility } from "../../functions/createAbility";
+import { AbilityCategory } from "../../functions/abilityCategory";
 
 // Create spell //
 const SPELL = std.Spells.create("azara-core", "rend-ability")
@@ -30,4 +31,4 @@ const SPELL = std.Spells.create("azara-core", "rend-ability")
     )
 
 // Export spell as an ability //
-export const REND = createAbility(SPELL.ID)
+export const REND = createAbility(SPELL.ID, AbilityCategory.DAMAGE_OVER_TIME)

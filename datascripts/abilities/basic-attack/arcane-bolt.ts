@@ -1,5 +1,6 @@
 import { std } from "wow/wotlk";
 import { createAbility } from "../../functions/createAbility";
+import { AbilityCategory } from "../../functions/abilityCategory";
 
 // Create 25% Mana Restore Spell //
 const MANA_RESTORE = std.Spells.create("azara-core", "mana-restore")
@@ -58,4 +59,4 @@ SPELL.Name.enGB.set("Arcane Bolt")
         caster.CastCustomSpell(caster, GetID("Spell", "azara-core", "mana-restore"), true, value)
     })
 
-export const ARCANE_BOLT = createAbility(SPELL.ID, true)
+export const ARCANE_BOLT = createAbility(SPELL.ID, AbilityCategory.BASIC_ATTACK, true)
