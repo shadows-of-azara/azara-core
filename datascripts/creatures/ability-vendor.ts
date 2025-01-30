@@ -1,8 +1,8 @@
 import { std } from "wow/wotlk"
 import { createScroll } from "../functions/createScroll"
-import { ARCANE_BOLT } from "../abilities/basic-attack/arcane-bolt"
-import { REND } from "../abilities/dot/rend"
-import { CORRUPTION } from "../abilities/dot/corruption"
+import { ARCANE_BOLT } from "../abilities/evocation/arcane-bolt"
+import { REND } from "../abilities/one-handed/rend"
+import { CORRUPTION } from "../abilities/necromancy/corruption"
 
 const MODEL = std.CreatureOutfits.create().fromString(
     `
@@ -28,9 +28,9 @@ const MODEL = std.CreatureOutfits.create().fromString(
 )
 
 const SCROLLS = [
-    createScroll(ARCANE_BOLT),
+    createScroll(ARCANE_BOLT, true),
     createScroll(CORRUPTION),
-    createScroll(REND, true)
+    createScroll(REND)
 ]
 
 export const ABILITY_VENDOR = std.CreatureTemplates.create("azara-core", "ability-vendor")

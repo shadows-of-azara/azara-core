@@ -1,7 +1,7 @@
 import { Ability } from "./ability"
-import { BasicAttack } from "./basic-attack"
+import { Necromancy } from "./necromancy"
 
 export function Skills(events: TSEvents) {
     Ability(events)
-    BasicAttack(events)
+    Necromancy(events)
 }

@@ -75,94 +75,77 @@ export class Category {
 }
 
 export const AbilityCategory = {
-    BASIC_ATTACK: new Category(
-        "Basic Attack",
-        "These are your fundamental attacks, used frequently in combat. They typically require little to no cooldown and serve as the foundation of your damage output.",
-        "ability_warrior_savageblow",
-        true // Learn on create
+    One_Handed: new Category(
+        "One Handed",
+        "Weapons that can be wielded in one hand, allowing for greater versatility and the use of a shield or a second weapon. These weapons are often faster and rely on consistent attacks.",
+        "inv_sword_04",
+        true
     ),
 
-    HEAVY_ATTACK: new Category(
-        "Heavy Attack",
-        "Powerful, high-impact attacks that deal significantly more damage than basic attacks. They often have a longer wind-up time or cooldown but are useful for breaking through enemy defenses.",
-        "ability_warrior_decisivestrike"
+    Two_Handed: new Category(
+        "Two Handed",
+        "Powerful weapons requiring both hands to wield, offering high damage per strike. They are slower but deliver devastating blows in combat.",
+        "inv_axe_09"
     ),
 
-    DAMAGE_OVER_TIME: new Category(
-        "Damage Over Time",
-        "These abilities inflict sustained damage over a period, making them effective for prolonged engagements. They are useful for whittling down enemies or applying pressure in combat.",
-        "spell_shadow_shadowwordpain"
+    Abjuration: new Category(
+        "Abjuration",
+        "A school of magic focused on protective spells, shielding allies, and negating harmful effects. Essential for defense and survivability in combat.",
+        "spell_holy_devotionaura"
     ),
 
-    COOLDOWN: new Category(
-        "Cooldown",
-        "Abilities in this category have a longer recharge time but offer significant effects. They are often used strategically to maximize damage, survivability, or utility.",
-        "ability_warrior_rallyingcry"
+    Air: new Category(
+        "Air",
+        "Spells and abilities harnessing the power of wind and storms, often used for mobility, shock damage, and disruption. Air magic is unpredictable but swift.",
+        "spell_nature_cyclone"
     ),
 
-    INTERRUPT: new Category(
-        "Interrupt",
-        "Used to disrupt enemy abilities, interrupts can stop spellcasting or delay powerful attacks. They are essential for countering enemy spellcasters and preventing devastating abilities.",
-        "ability_kick"
+    Conjuration: new Category(
+        "Conjuration",
+        "Magic specializing in summoning creatures, objects, and energy constructs. Conjurers bring forth allies and resources to aid in battle.",
+        "spell_arcane_portalstormwind"
     ),
 
-    CROWD_CONTROL: new Category(
-        "Crowd Control",
-        "Abilities that impair enemy movement, actions, or effectiveness in combat. They include stuns, slows, roots, and other effects that help control engagements.",
-        "spell_frost_chainsofice"
+    Earth: new Category(
+        "Earth",
+        "Abilities related to the stability and resilience of the land, often focusing on defense, endurance, and seismic attacks. Earth magic is strong and enduring.",
+        "spell_nature_strengthofearthtotem02"
     ),
 
-    TAUNT: new Category(
-        "Taunt",
-        "Forcing enemies to attack the caster, taunts are crucial for tanking roles. They help maintain threat and protect allies by keeping enemies focused on the intended target.",
-        "spell_nature_shout"
+    Evocation: new Category(
+        "Evocation",
+        "A school of magic dedicated to raw energy manipulation, creating powerful bursts of elemental force. Evokers unleash destructive fire, ice, and arcane power.",
+        "spell_fire_fireball02"
     ),
 
-    HEAL: new Category(
-        "Heal",
-        "Restores health to yourself or allies, helping sustain them in combat. Healing abilities are essential for keeping your group alive during challenging encounters.",
-        "spell_holy_flashheal"
+    Fire: new Category(
+        "Fire",
+        "The magic of flames and combustion, dealing intense damage over time and in bursts. Fire-based abilities are aggressive and relentless in battle.",
+        "spell_fire_flamebolt"
     ),
 
-    HEAL_OVER_TIME: new Category(
-        "Heal Over Time",
-        "Instead of instantly restoring health, these abilities gradually heal a target over time. They are useful for maintaining health without requiring constant casting.",
-        "spell_nature_rejuvenation"
+    Necromancy: new Category(
+        "Necromancy",
+        "Dark magic that manipulates life and death, often used to summon undead minions or drain the life force of enemies. Necromancers wield forbidden knowledge.",
+        "spell_shadow_requiem"
     ),
 
-    GROUP_HEAL: new Category(
-        "Group Heal",
-        "Healing multiple allies at once, these abilities are key in group combat. They are vital for supporting multiple teammates during intense battles.",
-        "spell_holy_prayerofhealing02"
+    Ranged: new Category(
+        "Ranged",
+        "Weapons and abilities designed for long-distance combat, including bows, guns, and magical projectiles. Ranged attacks allow for strategic positioning and precision.",
+        "inv_weapon_bow_07"
     ),
 
-    BUFF: new Category(
-        "Buff",
-        "Enhances a target’s abilities, stats, or survivability for a duration. Buffs can provide increased damage, defense, or other useful effects.",
-        "spell_holy_powerwordshield"
+    Shield: new Category(
+        "Shield",
+        "Defensive equipment used to block attacks and protect the wearer. Shields are crucial for tanking and reducing incoming damage in battle.",
+        "inv_shield_06"
     ),
 
-    DEBUFF: new Category(
-        "Debuff",
-        "Weakens enemies by reducing their effectiveness, such as lowering their damage or defense. Debuffs help gain an advantage by making enemies more vulnerable.",
-        "spell_shadow_curseofagnony"
+    Water: new Category(
+        "Water",
+        "Magic harnessing the power of water for healing, control, and freezing enemies. Water spells provide adaptability and sustain in combat.",
+        "spell_frost_frostbolt02"
     ),
 
-    COMBAT_UTILITY: new Category(
-        "Combat Utility",
-        "Abilities that provide situational advantages in combat, such as mobility boosts, resistances, or temporary immunities. These skills enhance versatility and tactical play.",
-        "ability_rogue_sprint"
-    ),
-
-    RESTING_UTILITY: new Category(
-        "Resting Utility",
-        "Abilities that aid in non-combat situations, like health regeneration, mana recovery, or convenience-based effects. They are useful between battles to prepare for the next encounter.",
-        "spell_nature_massteleport"
-    ),
-
-    SUMMON: new Category(
-        "Summon",
-        "Allows the user to call forth creatures, constructs, or magical entities for assistance. Summons can aid in combat, provide buffs, or serve as distractions.",
-        "spell_shadow_demoniccircleteleport"
-    )
 }
