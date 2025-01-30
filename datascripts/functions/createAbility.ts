@@ -1,11 +1,11 @@
 import { DBC, SQL, std } from "wow/wotlk"
 import { PLAYER_CLASS } from "./playerClass"
 import { write } from "wow"
-import { AbilityCategory } from "./abilityCategory"
+import { Category } from "./abilityCategory"
 
 const DEFAULT_ABILITIES: Array<uint32> = []
 
-export function createAbility(spell: uint32, category: AbilityCategory, isDefault?: boolean) {
+export function createAbility(spell: uint32, category: Category, requiredSkill?: uint32, learnOnCreate?: boolean) {
     const LOADED_SPELL = std.Spells.load(spell)
     const SPELL_NAME = LOADED_SPELL.Name.enGB.get()
 
@@ -28,20 +28,27 @@ export function createAbility(spell: uint32, category: AbilityCategory, isDefaul
         .InterruptFlags.ON_MOVEMENT.set(true)
         .Tags.add("azara-core", "LEARN_ABILITY")
 
-    if (isDefault) {
+    if (requiredSkill) {
+        ABILITY.Effects.mod(2, (eff => eff
+            .MiscValueA.set(category.GetSkill())
+            .MiscValueB.set(requiredSkill)
+        ))
+    }
+
+    if (learnOnCreate) {
         LOADED_SPELL.Tags.add("azara-core", "DEFAULT_ABILITY")
 
         DEFAULT_ABILITIES.push(spell)
 
     } else {
-        LOADED_SPELL.SkillLines.add(category)
+        LOADED_SPELL.SkillLines.add(category.GetSkill())
     }
 
-    LOADED_SPELL.Tags.add("azara-core", DBC.SkillLine.query({ ID: category }).DisplayName.enGB.get().replace(/[:\s]+/g, '_').toUpperCase())
+    LOADED_SPELL.Tags.add("azara-core", DBC.SkillLine.query({ ID: category.GetSkill() }).DisplayName.enGB.get().replace(/[:\s]+/g, '_').toUpperCase())
     LOADED_SPELL.Tags.add("azara-core", "ABILITY")
 
     LOADED_SPELL.Effects.mod(2, eff => eff
-        .MiscValueA.set(category)
+        .MiscValueA.set(category.GetSkill())
     )
 
     return ABILITY

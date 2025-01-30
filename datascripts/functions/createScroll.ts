@@ -17,6 +17,8 @@ export function createScroll(spell: Spell, soulbound?: boolean) {
             .Charges.Raw.set(-1)
             .Trigger.ON_USE.set()
         )
+        SCROLL.Requirements.Skill.Skill.set(spell.Effects.get(2).MiscValueA.get())
+        SCROLL.Requirements.Skill.Rank.set(spell.Effects.get(2).MiscValueB.get())
 
     if (soulbound) SCROLL.Bonding.BINDS_ON_PICKUP.set()
 

@@ -6,18 +6,15 @@ import { MaskCon } from "wow/data/cell/cells/MaskCell";
 
 [
     { skill: std.EquipSkills.Axes1H, spell: 196, race: RaceIDs.DWARF },
-    { skill: std.EquipSkills.Axes2H, spell: 197, race: RaceIDs.DWARF },
-
     { skill: std.EquipSkills.Maces1H, spell: 198, race: RaceIDs.NIGHTELF },
-    { skill: std.EquipSkills.Maces2H, spell: 199, race: RaceIDs.NIGHTELF },
-    
     { skill: std.EquipSkills.Swords1H, spell: 201, race: RaceIDs.HUMAN },
-    { skill: std.EquipSkills.Swords2H, spell: 202, race: RaceIDs.HUMAN },
-
-    { skill: std.EquipSkills.Staves, spell: 227 },
-    { skill: std.EquipSkills.Bows, spell: 264 },
     { skill: std.EquipSkills.Shields, spell: 9116 },
 
+    //{ skill: std.EquipSkills.Axes2H, spell: 197 },
+    //{ skill: std.EquipSkills.Maces2H, spell: 199 },
+    //{ skill: std.EquipSkills.Swords2H, spell: 202 },
+    //{ skill: std.EquipSkills.Staves, spell: 227 },
+    //{ skill: std.EquipSkills.Bows, spell: 264 },
     //{ skill: std.EquipSkills.Polearms, spell: 200 },
     //{ skill: std.EquipSkills.Guns, spell: 266 },
     //{ skill: std.EquipSkills.Daggers, spell: 1180 },
@@ -28,8 +25,8 @@ import { MaskCon } from "wow/data/cell/cells/MaskCell";
 
     { skill: std.EquipSkills.Cloth, spell: 9078 },
     { skill: std.EquipSkills.Leather, spell: 9077 },
-    { skill: std.EquipSkills.Mail, spell: 8737 },
-    
+
+    //{ skill: std.EquipSkills.Mail, spell: 8737 },
     //{ skill: std.EquipSkills.Plate, spell: 750 }
 
 ].forEach(skill => {
