@@ -18,19 +18,21 @@ export function createAbility(spell: uint32, category: Category, requiredSkill?:
             visual.PrecastKit.set(3790)
         })
         .CastTime.setSimple(1000)
-        .Effects.addMod(eff => eff
+        .Effects.mod(0, eff => eff
             .Type.APPLY_AURA.set()
             .Aura.DUMMY.set()
             .ImplicitTargetA.UNIT_CASTER.set()
             .MiscValueA.set(spell)
+        )
+        .Effects.mod(1, eff => eff
+            .MiscValueA.set(category.GetSkill())
         )
         .Attributes.IS_HIDDEN_FROM_LOG.set(true)
         .InterruptFlags.ON_MOVEMENT.set(true)
         .Tags.add("azara-core", "LEARN_ABILITY")
 
     if (requiredSkill) {
-        ABILITY.Effects.mod(2, (eff => eff
-            .MiscValueA.set(category.GetSkill())
+        ABILITY.Effects.mod(1, (eff => eff
             .MiscValueB.set(requiredSkill)
         ))
     }

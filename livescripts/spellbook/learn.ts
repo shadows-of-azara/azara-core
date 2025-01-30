@@ -4,8 +4,9 @@ export function Learn(events: TSEvents) {
     // When a player starts learning a new ability
     events.Spell.OnCheckCast(TAG("azara-core", "LEARN_ABILITY"), (spell, result) => {
         const player = ToPlayer(spell.GetCaster())
-        const ability = GetSpellInfo(spell.GetSpellInfo().GetEffect(2).GetMiscValue())
-        const skillCost = spell.GetSpellInfo().GetEffect(2).GetMiscValueB()
+        const ability = GetSpellInfo(spell.GetSpellInfo().GetEffect(0).GetMiscValue())
+        const category = spell.GetSpellInfo().GetEffect(1).GetMiscValue()
+        const skillCost = spell.GetSpellInfo().GetEffect(1).GetMiscValueB()
 
         if (!player) {
             return
@@ -14,8 +15,6 @@ export function Learn(events: TSEvents) {
         if (!ability) {
             return
         }
-
-        const category = ability.GetEffect(2).GetMiscValue()
 
         // Check if player has learned the category
         if (player.HasSkill(category)) {
@@ -43,8 +42,9 @@ export function Learn(events: TSEvents) {
     // When a player learns a new ability
     events.Spell.OnAfterCast(TAG("azara-core", "LEARN_ABILITY"), spell => {
         const player = ToPlayer(spell.GetCaster())
-        const ability = GetSpellInfo(spell.GetSpellInfo().GetEffect(2).GetMiscValue())
-        const skillCost = spell.GetSpellInfo().GetEffect(2).GetMiscValueB()
+        const ability = GetSpellInfo(spell.GetSpellInfo().GetEffect(0).GetMiscValue())
+        const category = spell.GetSpellInfo().GetEffect(1).GetMiscValue()
+        const skillCost = spell.GetSpellInfo().GetEffect(1).GetMiscValueB()
 
         if (!player) {
             return
@@ -53,8 +53,6 @@ export function Learn(events: TSEvents) {
         if (!ability) {
             return
         }
-
-        const category = ability.GetEffect(2).GetMiscValue()
 
         // Check if player has learned the category
         if (player.HasSkill(category)) {
