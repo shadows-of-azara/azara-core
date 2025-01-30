@@ -59,4 +59,4 @@ SPELL.Name.enGB.set("Arcane Bolt")
         caster.CastCustomSpell(caster, GetID("Spell", "azara-core", "mana-restore"), true, value)
     })
 
-export const ARCANE_BOLT = createAbility(SPELL.ID, AbilityCategory.BASIC_ATTACK, true)
+export const ARCANE_BOLT = createAbility(SPELL.ID, AbilityCategory.BASIC_ATTACK, 0, true)
