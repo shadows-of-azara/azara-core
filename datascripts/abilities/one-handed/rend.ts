@@ -31,4 +31,4 @@ const SPELL = std.Spells.create("azara-core", "rend-ability")
     )
 
 // Export spell as an ability //
-export const REND = createAbility(SPELL.ID, AbilityCategory.DAMAGE_OVER_TIME, 25)
+export const REND = createAbility(SPELL.ID, AbilityCategory.One_Handed, 0, true)

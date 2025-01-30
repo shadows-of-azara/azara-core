@@ -29,4 +29,4 @@ const SPELL = std.Spells.create("azara-core", "corruption-ability")
         .ImplicitTargetA.UNIT_TARGET_ENEMY.set()
     )
 
-export const CORRUPTION = createAbility(SPELL.ID, AbilityCategory.DAMAGE_OVER_TIME)
+export const CORRUPTION = createAbility(SPELL.ID, AbilityCategory.Necromancy, 25)
