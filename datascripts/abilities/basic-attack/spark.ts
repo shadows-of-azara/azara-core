@@ -1,6 +1,5 @@
 import { std } from "wow/wotlk";
 import { createAbility } from "../../functions/createAbility";
-import { TargetBase } from "wow/wotlk/std/Spell/EffectTemplates/TargetBase";
 
 // Create Aura //
 const SHOCKED_AURA = std.Spells.create("azara-core", "shocked-aura")
@@ -43,6 +42,7 @@ const SPELL = std.Spells.create("azara-core", "spark")
         .BonusMultiplier.set(0.14000000059604645)
         .ImplicitTargetA.UNIT_TARGET_ENEMY.set()
     )
+    // Apply Shocked Aura //
     .InlineScripts.OnHit(spell => {
         const caster = ToUnit(spell.GetCaster());
         const target = ToUnit(spell.GetTarget());
